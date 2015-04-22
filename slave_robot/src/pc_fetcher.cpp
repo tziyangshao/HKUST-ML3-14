@@ -18,11 +18,7 @@
 using namespace std; 
 using namespace sensor_msgs;
 
-// -----------------------------
-// for fileoutput indexing
-// -----------------------------
-int file_count=0;
-char filename[50];
+
 // -----------------------------
 // for pointcloud recovery
 // -----------------------------
@@ -30,12 +26,6 @@ char filename[50];
 float fx, fy, cx, cy, fxi, fyi, cxi, cyi;
 int height, width;
 InputPointDense* originalInput;
-union {
-    float float_pc;
-    struct {
-        uint8_t pc_0, pc_1, pc_2, pc_3;
-    } bytes;
-} value;
 // camera pose
 // may be updated by kf-graph.
 Sophus::Sim3f camToWorld;
@@ -45,21 +35,10 @@ Sophus::Sim3f camToWorld;
 bool keyframe_trigger=0;
 sensor_msgs::Image keyframe;
 sensor_msgs::PointCloud pointcloud;
-/*
-Header header--------------------------------------> uint32 seq      //framecount
-uint32 height                                  |     time stamp      //time
-uint32 width                                   |___> string frame_id //empty
-bool    is_bigendian 
-uint32  point_step   
-uint32  row_step     
-uint8[] data     
-bool is_dense 
-
-*/
 
 	
 void pc_Callback(slave_robot::keyframeMsgConstPtr msg){
-	int countpoint=0;
+	int point_count=0;
 	fx = msg->fx;
 	fy = msg->fy; 
 	cx = msg->cx;
@@ -79,7 +58,6 @@ void pc_Callback(slave_robot::keyframeMsgConstPtr msg){
 	// this is the place where they converte uint8 into float, if you
 	// dun get it, there is a link, 
         //http://answers.ros.org/question/72469/roscpp-convert-uint8-into-a-known-struct/
-	ROS_INFO("Data Heard\n");
 	for(int y=1;y<height-1;y++){
 		for(int x=1;x<width-1;x++){
 			float depth = 1/originalInput[x+y*width].idepth;
@@ -92,16 +70,17 @@ void pc_Callback(slave_robot::keyframeMsgConstPtr msg){
 			tempbuffer.y=pt[1];
 			tempbuffer.z=pt[2];
 			pointcloud.points.push_back(tempbuffer);
+			point_count++;
 			}
 		}
-	file_count++;
-	ROS_INFO("Chatter calling back to...");
+	cout<< point_count <<endl;
+	ROS_INFO("pc calling back...");
 }
 
 void keyframecount_Callback(slave_robot::keyframeGraphMsgConstPtr graph_msg){
 	pointcloud.header.seq= graph_msg-> numFrames;
 	keyframe_trigger=1;
-	ROS_INFO("graph loading...");
+	ROS_INFO("keyframe calling back...");
 }
 
 void image_Callback(const ImageConstPtr& image){
@@ -155,7 +134,10 @@ int main(int argc, char **argv){
       keyframe_trigger=0;
     }
     ros::spinOnce();
-    pointcloud.points.clear();   
+    if (pointcloud.points.size() >0){
+    cout<< pointcloud.points.size() <<endl;
+}
+    pointcloud.points.clear();
 }
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
