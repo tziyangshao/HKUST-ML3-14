@@ -13,7 +13,7 @@
 //#include <message_filters/subscriber.h>
 //#include <message_filters/time_synchronizer.h>
 #include <sensor_msgs/Image.h>
-#include <sensor_msgs/PointCloud2.h>
+#include <sensor_msgs/PointCloud.h>
 
 using namespace std; 
 using namespace sensor_msgs;
@@ -44,7 +44,7 @@ Sophus::Sim3f camToWorld;
 // -----------------------------
 bool keyframe_trigger=0;
 sensor_msgs::Image keyframe;
-sensor_msgs::PointCloud2 pointcloud;
+sensor_msgs::PointCloud pointcloud;
 /*
 Header header--------------------------------------> uint32 seq      //framecount
 uint32 height                                  |     time stamp      //time
@@ -80,11 +80,6 @@ void pc_Callback(slave_robot::keyframeMsgConstPtr msg){
 	// dun get it, there is a link, 
         //http://answers.ros.org/question/72469/roscpp-convert-uint8-into-a-known-struct/
 	ROS_INFO("Data Heard\n");
-
-	ofstream myfile;
-	sprintf(filename,"/home/turtlebot-3/data/pc%04d",file_count);
-  	myfile.open (filename);
-	ROS_INFO(filename);
 	for(int y=1;y<height-1;y++){
 		for(int x=1;x<width-1;x++){
 			float depth = 1/originalInput[x+y*width].idepth;
@@ -92,44 +87,13 @@ void pc_Callback(slave_robot::keyframeMsgConstPtr msg){
 			if(originalInput[x+y*width].idepth<=0)
 				continue;					
 			Sophus::Vector3f pt = camToWorld * (Sophus::Vector3f((x*fxi + cxi), (y*fyi + cyi), 1.0) * depth);
-			myfile <<pt[0] <<" "<< pt[1] <<" "<< pt[2] <<"\n";
-			value.float_pc=pt[0];
-			pointcloud.data[0]=value.bytes.pc_0;
-			pointcloud.data[1]=value.bytes.pc_1;
-			pointcloud.data[2]=value.bytes.pc_2;
-			pointcloud.data[3]=value.bytes.pc_3;
-			value.float_pc=pt[1];
-			pointcloud.data[4]=value.bytes.pc_0;
-			pointcloud.data[5]=value.bytes.pc_1;
-			pointcloud.data[6]=value.bytes.pc_2;
-			pointcloud.data[7]=value.bytes.pc_3;
-			value.float_pc=pt[2];
-			pointcloud.data[8]=value.bytes.pc_0;
-			pointcloud.data[9]=value.bytes.pc_1;
-			pointcloud.data[10]=value.bytes.pc_2;
-			pointcloud.data[11]=value.bytes.pc_3;
-			/*		
-			value.float_pc=pt[0];
-			pointcloud.data[0+countpoint*12]=value.bytes.pc_0;
-			pointcloud.data[1+countpoint*12]=value.bytes.pc_1;
-			pointcloud.data[2+countpoint*12]=value.bytes.pc_2;
-			pointcloud.data[3+countpoint*12]=value.bytes.pc_3;
-			value.float_pc=pt[1];
-			pointcloud.data[4+countpoint*12]=value.bytes.pc_0;
-			pointcloud.data[5+countpoint*12]=value.bytes.pc_1;
-			pointcloud.data[6+countpoint*12]=value.bytes.pc_2;
-			pointcloud.data[7+countpoint*12]=value.bytes.pc_3;
-			value.float_pc=pt[2];
-			pointcloud.data[8+countpoint*12]=value.bytes.pc_0;
-			pointcloud.data[9+countpoint*12]=value.bytes.pc_1;
-			pointcloud.data[10+countpoint*12]=value.bytes.pc_2;
-			pointcloud.data[11+countpoint*12]=value.bytes.pc_3;
-			*/
-			countpoint++;
+			geometry_msgs::Point32 tempbuffer;
+			tempbuffer.x=pt[0];
+			tempbuffer.y=pt[1];
+			tempbuffer.z=pt[2];
+			pointcloud.points[].pushback(tempbuffer);
 			}
 		}
- 	myfile.close();
-	pointcloud.width=countpoint;
 	file_count++;
 	ROS_INFO("Chatter calling back to...");
 }
@@ -183,14 +147,15 @@ int main(int argc, char **argv){
   ros::Subscriber keyframecount_sub = slave_robot.subscribe("/lsd_slam/graph", 10, keyframecount_Callback);
   ros::Subscriber image_sub = slave_robot.subscribe("/usb_cam_node/image_raw", 10, image_Callback);
   ros::Publisher image_pub = slave_robot.advertise<sensor_msgs::Image>("/slave_robot/keyFrame", 5);
-  ros::Publisher pc_pub = slave_robot.advertise<sensor_msgs::PointCloud2>("/slave_robot/pointcloud", 5);
+  ros::Publisher pc_pub = slave_robot.advertise<sensor_msgs::PointCloud>("/slave_robot/pointcloud", 5);
   while (ros::ok()){
     if(keyframe_trigger==1){
       image_pub.publish(keyframe);
       pc_pub.publish(pointcloud);
       keyframe_trigger=0;
     }
-    ros::spinOnce();   
+    ros::spinOnce();
+    pointcloud.points.clear();   
 }
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
