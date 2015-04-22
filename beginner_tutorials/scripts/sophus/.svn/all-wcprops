@@ -1,0 +1,89 @@
+K 25
+svn:wc:ra_dav:version-url
+V 81
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus
+END
+so2.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/so2.hpp
+END
+test_se2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/test_se2.cpp
+END
+so3.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/so3.hpp
+END
+test_se3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/test_se3.cpp
+END
+test_sim3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 95
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/test_sim3.cpp
+END
+test_rxso3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 96
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/test_rxso3.cpp
+END
+se2.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/se2.hpp
+END
+se3.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 89
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/se3.hpp
+END
+sim3.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/sim3.hpp
+END
+test_so2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/test_so2.cpp
+END
+rxso3.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/rxso3.hpp
+END
+test_so3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 94
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/test_so3.cpp
+END
+sophus.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/sophus.hpp
+END
+tests.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/scripts/sophus/tests.hpp
+END

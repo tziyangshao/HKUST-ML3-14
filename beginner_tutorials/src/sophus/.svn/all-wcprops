@@ -1,0 +1,95 @@
+K 25
+svn:wc:ra_dav:version-url
+V 77
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus
+END
+test_so2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/test_so2.cpp
+END
+test_so3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/test_so3.cpp
+END
+tests.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/tests.hpp
+END
+so2.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/so2.hpp
+END
+so3.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/so3.hpp
+END
+test_sim3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 91
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/test_sim3.cpp
+END
+test_rxso3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 92
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/test_rxso3.cpp
+END
+tags
+K 25
+svn:wc:ra_dav:version-url
+V 82
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/tags
+END
+sim3.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 86
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/sim3.hpp
+END
+rxso3.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 87
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/rxso3.hpp
+END
+sophus.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 88
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/sophus.hpp
+END
+test_se2.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/test_se2.cpp
+END
+test_se3.cpp
+K 25
+svn:wc:ra_dav:version-url
+V 90
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/test_se3.cpp
+END
+se2.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/se2.hpp
+END
+se3.hpp
+K 25
+svn:wc:ra_dav:version-url
+V 85
+/svn/svn_root/!svn/ver/1804/projects/FYP/ML3-14/beginner_tutorials/src/sophus/se3.hpp
+END
