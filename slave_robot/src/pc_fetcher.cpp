@@ -138,9 +138,11 @@ int main(int argc, char **argv){
       keyframe_trigger=0;
     }
     ros::spinOnce();
-    if (cloud2.points.size() >0){
-    cout<< cloud2.points.size() <<endl;
+/*
+    if (pointcloud.points.size() >0){
+    cout<< pointcloud.points.size() <<endl;
 }
+*/
     pointcloud.points.clear();
 }
   /**
