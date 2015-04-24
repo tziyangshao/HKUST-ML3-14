@@ -83,6 +83,7 @@ void pc_Callback(slave_robot::keyframeMsgConstPtr msg){
 
 void keyframecount_Callback(slave_robot::keyframeGraphMsgConstPtr graph_msg){
 	pointcloud.header.seq= graph_msg-> numFrames;
+	pointcloud.header.frame_id = "robot";
 	keyframe_trigger=1;
 	ROS_INFO("keyframe calling back...");
 }
