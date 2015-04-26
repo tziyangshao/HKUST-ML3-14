@@ -37,9 +37,9 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 ##target_link_libraries(pose ${catkin_LIBRARIES})
 ##add_dependencies(pose beginner_tutorials_generate_messages_cpp)
 
-add_executable(slave_robot src/pc_fetcher.cpp src/slave_robot.cpp)
-target_link_libraries(slave_robot ${catkin_LIBRARIES})
-add_dependencies(slave_robot slave_robot_generate_messages_cpp)
+add_executable(pc_fetcher src/pc_fetcher.cpp src/class.cpp)
+target_link_libraries(pc_fetcher ${catkin_LIBRARIES})
+add_dependencies(pc_fetcher slave_robot_generate_messages_cpp)
 
 
 

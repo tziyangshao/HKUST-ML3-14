@@ -50,9 +50,9 @@ void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
 		}
 	sensor_msgs::convertPointCloudToPointCloud2(_pointcloud,_cloud2);	
 	ROS_INFO("pc calling back...");
-	_cloud2.header.seq=kfIndex;
+	_cloud2.header.seq=(uint32_t)kfIndex;
 	cout << _cloud2.header.seq << endl;
-	_keyframe.header.seq=kfIndex;
+	_keyframe.header.seq=(uint32_t)kfIndex;
 	cout << _keyframe.header.seq << endl;
 	_imPub.publish(_keyframe);
 	_pcPub.publish(_cloud2);
