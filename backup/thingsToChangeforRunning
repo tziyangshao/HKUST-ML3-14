@@ -1,0 +1,5 @@
+go src/pc_fetcher.cpp
+	- change /lsd_slam/graph to corresponding lsd_slam/graph on the node
+	- change /usb_cam_node/image_raw to corresponding output of camera
+go ../CMakeLists.txt
+	- change CMAKE_MODULE_PATH /home/turtlebot-3/catkin_ws/src/slave_robot to path that contains FindEigen3.cmake(should be under slave_robot directory)
