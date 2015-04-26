@@ -39,15 +39,15 @@ void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
 		float depth = 1 / _originalInput[x+y*_width].idepth;
 		float depth4 = depth*depth; depth4*= depth4;
 		if(_originalInput[x+y*_width].idepth_var * depth4 > scaledDepthVarTH) continue;
-		if(_originalInput[x+y*_width].idepth_var * depth4 * _camToWorld.scale()*_camToWorld.scale() > scaledDepthVarTH) continue;
+		if(_originalInput[x+y*_width].idepth_var * depth4 * camToWorld.scale()*camToWorld.scale() > scaledDepthVarTH) continue;
 		if(minNearSupport > 1){
 		    int nearSupport = 0;
 			for(int dx=-1;dx<2;dx++)
     			    for(int dy=-1;dy<2;dy++){
 				int idx = x+dx+(y+dy)*_width;
 				if(_originalInput[idx].idepth > 0){
-				    float diff = _originalInput[idx].idepth - 1.0f / depth;
-				    if(diff*diff < 2*_originalInput[x+y*_width].idepth_var)
+				    float diff = originalInput[idx].idepth - 1.0f / depth;
+				    if(diff*diff < 2*_originalInput[x+y*width].idepth_var)
 					nearSupport++;
 				}
 			    }

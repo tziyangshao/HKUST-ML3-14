@@ -136,7 +136,7 @@ void chatterCallback(beginner_tutorials::keyframeMsgConstPtr msg)
 			if(minNearSupport > 1)
 			{
 				int nearSupport = 0;
-				for(int dx=-1;dx<2;dx++){
+				for(int dx=-1;dx<2;dx++)
 					for(int dy=-1;dy<2;dy++)
 					{
 						int idx = x+dx+(y+dy)*width;
@@ -147,7 +147,6 @@ void chatterCallback(beginner_tutorials::keyframeMsgConstPtr msg)
 								nearSupport++;
 						}
 					}
-				}
 
 				if(nearSupport < minNearSupport)
 					continue;
