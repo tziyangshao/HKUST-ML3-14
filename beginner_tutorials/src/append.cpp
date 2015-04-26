@@ -58,6 +58,22 @@ int height;
 int width;
 float my_scale;
 InputPointDense* originalInput;
+// parameters settings
+float pointTesselation = 1;
+float lineTesselation = 2;
+bool keepInMemory=true;
+bool showKFCameras = true;
+bool showKFPointclouds = true;
+bool showConstraints = true;
+bool showCurrentCamera = true;
+bool showCurrentPointcloud = true;
+float scaledDepthVarTH = 1;
+float absDepthVarTH = 1;
+int minNearSupport = 5;
+int cutFirstNKf = 5;
+int sparsifyFactor = 1;
+bool saveAllVideo = false;
+int numRefreshedAlready = 0;
 
 // camera pose
 // may be updated by kf-graph.
@@ -107,17 +123,38 @@ void chatterCallback(beginner_tutorials::keyframeMsgConstPtr msg)
 	//myfile << "camToWorld:\t"<<camToWorld.data[0]<<"\t"<<camToWorld.data[1]<<"\t"<<camToWorld[2]<<"\t"<<camToWorld[3]<<"\t"<<camToWorld[4]<<"\t"<<camToWorld[5]<<"\t"<<camToWorld[6]<<"\n";
 	for(int y=1;y<height-1;y++){
 		for(int x=1;x<width-1;x++){
-			float depth = 1/originalInput[x+y*width].idepth;
+			if(originalInput[x+y*width].idepth <= 0) continue;
+			float depth = 1 / originalInput[x+y*width].idepth;
 			float depth4 = depth*depth; depth4*= depth4;
-			my_scale=camToWorld.scale();
-			if(originalInput[x+y*width].idepth<=0)
-				continue;		
-				//camera_prop((x*fxi + cxi), (y*fyi + cyi), 1);				
-			Sophus::Vector3f pt = camToWorld * (Sophus::Vector3f((x*fxi + cxi), (y*fyi + cyi), 1.0) * depth); 
-			myfile <<pt[0] <<" "<< pt[1] <<" "<< pt[2] <<"\n";
-				//myfile << x<<"\t"<< y <<"\t"<<depth<<"\n";
+
+			if(originalInput[x+y*width].idepth_var * depth4 > scaledDepthVarTH)
+				continue;
+
+			if(originalInput[x+y*width].idepth_var * depth4 * camToWorld.scale()*camToWorld.scale() > scaledDepthVarTH)
+				continue;
+
+			if(minNearSupport > 1)
+			{
+				int nearSupport = 0;
+				for(int dx=-1;dx<2;dx++)
+					for(int dy=-1;dy<2;dy++)
+					{
+						int idx = x+dx+(y+dy)*width;
+						if(originalInput[idx].idepth > 0)
+						{
+							float diff = originalInput[idx].idepth - 1.0f / depth;
+							if(diff*diff < 2*originalInput[x+y*width].idepth_var)
+								nearSupport++;
+						}
+					}
+
+				if(nearSupport < minNearSupport)
+					continue;
 			}
+	Sophus::Vector3f pt = camToWorld * (Sophus::Vector3f((x*fxi + cxi), (y*fyi + cyi), 1.0) * depth); 
+	myfile <<pt[0] <<" "<< pt[1] <<" "<< pt[2] <<"\n";
 		}
+	}
  	myfile.close();
   //ROS_INFO("PointPosition: [ %f, %f, %f]\t",msg->position.x,msg->position.y,msg->position.z);
   //ROS_INFO("Quat Orientation: [ %f, %f, %f, %f]\n",msg->quat.x, msg->quat.y, msg->quat.z, msg->quat.w);
@@ -141,6 +178,7 @@ int main(int argc, char **argv)
    */
   ros::init(argc, argv, "listener");
 
+	ROS_INFO("mainloop");
   /**
    * NodeHandle is the main access point to communications with the ROS system.
    * The first NodeHandle constructed will fully initialize this node, and the last
