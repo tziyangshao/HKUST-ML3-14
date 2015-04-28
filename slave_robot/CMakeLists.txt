@@ -17,7 +17,7 @@ generate_messages(DEPENDENCIES std_msgs)
 catkin_package()
 
 SET (INCLUDE_DIRS "../eigen3.1/")
-set(CMAKE_MODULE_PATH /home/turtlebot-3/catkin_ws/src/slave_robot)
+set(CMAKE_MODULE_PATH /home/daniel/ROS_HKUST_project/slave_robot2_catkin_ws/src/slave_robot)
 find_package( Eigen3 REQUIRED )
 INCLUDE_DIRECTORIES( ${EIGEN3_INCLUDE_DIR} )
 SET( Sophus_INCLUDE_DIR ${Sophus_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} )
@@ -37,9 +37,11 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 ##target_link_libraries(pose ${catkin_LIBRARIES})
 ##add_dependencies(pose beginner_tutorials_generate_messages_cpp)
 
-add_executable(pc_fetcher src/pc_fetcher.cpp)
-target_link_libraries(pc_fetcher ${catkin_LIBRARIES})
-add_dependencies(pc_fetcher slave_robot_generate_messages_cpp)
+add_executable(slave_robot src/pc_fetcher.cpp src/slave_robot.cpp)
+target_link_libraries(slave_robot ${catkin_LIBRARIES})
+add_dependencies(slave_robot slave_robot_generate_messages_cpp)
+
+
 
 # add_dependencies(talker beginner_tutorials_generate_messages_cpp)
 # %EndTag(FULLTEXT)%
