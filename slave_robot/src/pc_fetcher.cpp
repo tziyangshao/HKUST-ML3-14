@@ -2,6 +2,7 @@
 
 using namespace std; 
 using namespace sensor_msgs;
+using namespace std_msgs;
 
 pc_fetcher::pc_fetcher(ros::NodeHandle nh) : _slaveRobot(nh)
 {
@@ -11,6 +12,10 @@ pc_fetcher::pc_fetcher(ros::NodeHandle nh) : _slaveRobot(nh)
     _pcSub = _slaveRobot.subscribe("/lsd_slam_r2/keyframes", 20, &pc_fetcher::pcCallback, this);
     _imPub = _slaveRobot.advertise<sensor_msgs::Image>("/slave_robot2/keyFrame", 5);
     _pcPub = _slaveRobot.advertise<sensor_msgs::PointCloud2>("/slave_robot2/pointcloud2", 5);
+    _scalePub = _slaveRobot.advertise<std_msgs::Float32>("/slave_robot2/scale", 5);
+	
+//	_scale = std_msgs::Float32
+
 }
 pc_fetcher::~pc_fetcher(){
 	//destructor to release the memory
@@ -68,13 +73,16 @@ void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
     _cloud2.header.seq=kfIndex;
 
 
-    ROS_INFO("pc calling back...");
 	ros::Time timeStamp(msg->time);
 	_cloud2.header.stamp = timeStamp;
+	cout << "scale: " << _camToWorld.scale() << endl;
+	_scale.data = _camToWorld.scale();
+
     _keyframe.header.seq=kfIndex;
 
     _imPub.publish(_keyframe);
     _pcPub.publish(_cloud2);
+    _scalePub.publish(_scale);
 }
 
 void pc_fetcher::kfCallback(slave_robot::keyframeGraphMsgConstPtr graph_msg){

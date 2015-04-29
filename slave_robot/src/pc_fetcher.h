@@ -12,6 +12,7 @@
 #include <sensor_msgs/PointCloud.h>
 #include <sensor_msgs/PointCloud2.h>
 #include <sensor_msgs/point_cloud_conversion.h>
+#include <std_msgs/Float32.h>
 
 using namespace std; 
 using namespace sensor_msgs;
@@ -43,11 +44,13 @@ class pc_fetcher{
 	sensor_msgs::Image _keyframe;
 	sensor_msgs::PointCloud _pointcloud;
 	sensor_msgs::PointCloud2 _cloud2;
+	std_msgs::Float32 _scale;
 	ros::NodeHandle _slaveRobot;
 	ros::Subscriber _pcSub;
 	ros::Subscriber _kfSub;
 	ros::Subscriber _imSub;
 	ros::Publisher _imPub;
 	ros::Publisher _pcPub;
+	ros::Publisher _scalePub;
 };
 
