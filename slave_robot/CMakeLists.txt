@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8.3)
 project(slave_robot)
 
 ## Find catkin and any catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs genmsg)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sensor_msgs genmsg pcl_conversions pcl_ros)
 
 ## Declare ROS messages and services
 add_message_files(
@@ -37,7 +37,7 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 ##target_link_libraries(pose ${catkin_LIBRARIES})
 ##add_dependencies(pose beginner_tutorials_generate_messages_cpp)
 
-add_executable(slave_robot src/pc_fetcher.cpp src/slave_robot.cpp)
+add_executable(slave_robot src/pc_fetcher.cpp src/pc_filter.cpp src/slave_robot.cpp)
 target_link_libraries(slave_robot ${catkin_LIBRARIES})
 add_dependencies(slave_robot slave_robot_generate_messages_cpp)
 

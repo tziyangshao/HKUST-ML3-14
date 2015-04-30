@@ -26,8 +26,9 @@ class pc_fetcher{
 	void pcCallback(slave_robot::keyframeMsgConstPtr msg);
 	void kfCallback(slave_robot::keyframeGraphMsgConstPtr graph_msg);
 	void imCallback(const ImageConstPtr& image);
-	float scaledDepthVarTH;
-	int minNearSupport;
+	static void clearPc();
+	static float scaledDepthVarTH;
+	static int minNearSupport;
 	
     private:
 	//parameters of the camera

@@ -1,4 +1,5 @@
 #include "pc_fetcher.h"
+#include "pc_filter.h"
 
 using namespace std; 
 using namespace sensor_msgs;
@@ -25,7 +26,7 @@ int main(int argc, char **argv){
    * NodeHandle destructed will close down the node.
    */
   pc_fetcher fetch;
-
+  pc_filter filter;
   /**
    * The subscribe() call is how you tell ROS that you want to receive messages
    * on a given topic.  This invokes a call to the ROS
@@ -41,7 +42,12 @@ int main(int argc, char **argv){
    * is the number of messages that will be buffered up before beginning to throw
    * away the oldest ones.
    */
-    ros::spin();
+   ros::spin();
+/*
+   while(ros::ok()){
+	ros::spinOnce();
+	fetch::clearPC();
+}*/
   /**
    * ros::spin() will enter a loop, pumping callbacks.  With this version, all
    * callbacks will be called from within this thread (the main one).  ros::spin()

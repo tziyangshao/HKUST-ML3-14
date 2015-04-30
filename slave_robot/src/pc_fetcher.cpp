@@ -15,7 +15,10 @@ pc_fetcher::~pc_fetcher(){
 }
 
 void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
+    _cloud2.data.clear();
+    _pointcloud.points.clear();
     geometry_msgs::Point32 _tempbuffer;
+    ros::Time timeStamp(msg->time);
     _fx = msg->fx;
     _fy = msg->fy; 
     _cx = msg->cx;
@@ -63,6 +66,8 @@ void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
     sensor_msgs::convertPointCloudToPointCloud2(_pointcloud,_cloud2);	
     ROS_INFO("pc calling back...");
     _cloud2.header.seq=kfIndex;
+    _cloud2.header.stamp= timeStamp;
+    _cloud2.header.frame_id="slave_robot";
     cout << _cloud2.header.seq << endl;
     _keyframe.header.seq=kfIndex;
     cout << _keyframe.header.seq << endl;
