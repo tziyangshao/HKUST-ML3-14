@@ -20,7 +20,6 @@
 #include <pcl_ros/transforms.h>
 #include <pcl/io/pcd_io.h>
 #include <pcl/PCLPointCloud2.h>
-#include <pcl/filters/random_sample.h>
 
 class pc_filter{
     public:
