@@ -13,6 +13,7 @@ class pc_filter{
 	
     private:
 	
+	ros::NodeHandle _slaveRobot;
 	ros::Subscriber _pcSub;
 	ros::Publisher _pcPub;
 };

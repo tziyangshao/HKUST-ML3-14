@@ -1,17 +1,7 @@
 #include "pc_filter.h"
-#include <ros/ros.h>
-// PCL specific includes
-#include <sensor_msgs/PointCloud2.h>
-#include <pcl_conversions/pcl_conversions.h>
-#include <pcl/conversions.h> //I believe you were using pcl/ros/conversion.h
-#include <pcl/point_cloud.h>
-#include <pcl/point_types.h>
-#include <pcl/PCLPointCloud2.h>
-#include <pcl/conversions.h>
-#include <pcl_ros/transforms.h>
-#include <pcl/io/pcd_io.h>
-#include <pcl/PCLPointCloud2.h>
-#include <pcl/filters/random_sample.h>
+
+using namespace std; 
+using namespace sensor_msgs;
 
 
 pc_filter::pc_filter(){
@@ -25,30 +15,39 @@ pc_filter::~pc_filter(){
 void pc_filter::pcCallback(const sensor_msgs::PointCloud2ConstPtr & cloud_msg)
 { 
 // Container for original & filtered data
-  //int numberSampled = (cloud_msg.width)/2;
+  sensor_msgs::PointCloud output;
+  sensor_msgs::PointCloud2 output_pc;
+  geometry_msgs::Point32 _tempbuffer;
+  int numberSampled = (cloud_msg->width)/2;
+  cout <<"cloud_msg->width "<<cloud_msg->width<<endl;
+  cout <<"numberSampled "<<numberSampled<<endl;
 
-  ROS_INFO("output of numbers %f",cloud_msg.width);
-  int numberSampled = 200;
-  pcl::PCLPointCloud2* cloud = new pcl::PCLPointCloud2; 
-  pcl::PCLPointCloud2ConstPtr cloudPtr(cloud);
-  pcl::PCLPointCloud2 cloud_filtered;
+  pcl::PointCloud<pcl::PointXYZ>::Ptr PC (new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::PointCloud<pcl::PointXYZ>::Ptr PC_filtered (new pcl::PointCloud<pcl::PointXYZ>);
+  pcl::fromROSMsg(*cloud_msg, *PC);
 
-  // Convert to PCL data type
-  pcl_conversions::toPCL(*cloud_msg, *cloud);
-
-  // Perform the actual filtering
-  
-  pcl::RandomSample<pcl::PCLPointCloud2> ransamp;
+  pcl::RandomSample<pcl::PointXYZ>ransamp;
+  ransamp.setInputCloud (PC);
   ransamp.setSample (numberSampled);
   ransamp.setSeed(rand());
-  ransamp.filter(cloud_filtered);
+  ransamp.filter(*PC_filtered);
 
   // Convert to ROS data type
-  sensor_msgs::PointCloud2 output;
-  pcl_conversions::fromPCL(cloud_filtered, output);
+
+
   output.header.frame_id="filtered_pc";
-  ROS_INFO("output of numbers %f",output.width);
+  for (size_t i = 0; i < PC_filtered->points.size (); ++i){
+	_tempbuffer.x=PC_filtered->points[i].x;
+	_tempbuffer.y=PC_filtered->points[i].y;
+	_tempbuffer.z=PC_filtered->points[i].z;
+	output.points.push_back(_tempbuffer);
+}
+	
+  sensor_msgs::convertPointCloudToPointCloud2(output,output_pc);
+   cout <<"cloud_msg->width "<<output_pc->width<<endl;	
   // Publish the data
-  _pcPub.publish (output);
+  _pcPub.publish (output_pc);
+
+
 }
 
