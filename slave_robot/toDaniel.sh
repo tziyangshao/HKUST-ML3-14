@@ -1,11 +1,11 @@
 #!/bin/bash
 
-rm change/Zyan_cmake
-rm change/Zyan_fetcher
+rm change/Z_cmake
+rm change/Z_fetcher
 
-mv CMakeLists.txt change/Zyan_cmake
-mv src/pc_fetcher.cpp change/Zyan_fetcher
+mv CMakeLists.txt change/Z_cmake
+mv src/pc_fetcher.cpp change/Z_fetcher
 
-mv change/Daniel_cmake CMakeLists.txt
-mv change/Daniel_fetcher src/pc_fetcher.cpp
+mv change/D_cmake CMakeLists.txt
+mv change/D_fetcher src/pc_fetcher.cpp
 
