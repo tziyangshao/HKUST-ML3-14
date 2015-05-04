@@ -27,6 +27,7 @@
 //#include "QGLViewer/qglviewer.h"
 #include "slave_robot/keyframeMsg.h"
 #include "slave_robot/keyframeGraphMsg.h"
+#include "slave_robot/similarityTransformStamped.h"
 #include "sophus/sim3.hpp"
 
 #include <sstream>

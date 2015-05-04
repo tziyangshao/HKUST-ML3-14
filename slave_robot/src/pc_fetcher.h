@@ -43,11 +43,15 @@ class pc_fetcher{
 	sensor_msgs::Image _keyframe;
 	sensor_msgs::PointCloud _pointcloud;
 	sensor_msgs::PointCloud2 _cloud2;
+	slave_robot::similarityTransformStamped _sim3f;
+
 	ros::NodeHandle _slaveRobot;
 	ros::Subscriber _pcSub;
 	ros::Subscriber _kfSub;
 	ros::Subscriber _imSub;
+
 	ros::Publisher _imPub;
 	ros::Publisher _pcPub;
+	ros::Publisher _simPub;
 };
 

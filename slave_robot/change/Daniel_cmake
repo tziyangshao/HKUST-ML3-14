@@ -18,8 +18,8 @@ catkin_package()
 
 SET (INCLUDE_DIRS "../eigen3.1/")
 
-set(CMAKE_MODULE_PATH /home/turtlebot-3/catkin_ws/src/slave_robot)
-#set(CMAKE_MODULE_PATH /home/daniel/ROS_HKUST_project/slave_robot2_catkin_ws/src/slave_robot)
+#set(CMAKE_MODULE_PATH /home/turtlebot-3/catkin_ws/src/slave_robot)
+set(CMAKE_MODULE_PATH /home/daniel/ROS_HKUST_project/slave_robot2_catkin_ws/src/slave_robot)
 find_package( Eigen3 REQUIRED )
 INCLUDE_DIRECTORIES( ${EIGEN3_INCLUDE_DIR} )
 SET( Sophus_INCLUDE_DIR ${Sophus_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} )
