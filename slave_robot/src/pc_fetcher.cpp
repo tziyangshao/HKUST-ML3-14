@@ -4,26 +4,23 @@ using namespace std;
 using namespace sensor_msgs;
 using namespace std_msgs;
 
-pc_fetcher::pc_fetcher(ros::NodeHandle nh) : _slaveRobot(nh)
-{
-//    _imSub = _slaveRobot.subscribe("/usb_cam_node/image_raw", 30, &pc_fetcher::imCallback, this);
+pc_fetcher::pc_fetcher(){
     _imSub = _slaveRobot.subscribe("/usb_cam_r2/image_raw", 30, &pc_fetcher::imCallback, this);
     _kfSub = _slaveRobot.subscribe("/lsd_slam_r2/graph", 10, &pc_fetcher::kfCallback, this);
     _pcSub = _slaveRobot.subscribe("/lsd_slam_r2/keyframes", 20, &pc_fetcher::pcCallback, this);
     _imPub = _slaveRobot.advertise<sensor_msgs::Image>("/slave_robot2/keyFrame", 5);
     _pcPub = _slaveRobot.advertise<sensor_msgs::PointCloud2>("/slave_robot2/pointcloud2", 5);
-    _scalePub = _slaveRobot.advertise<std_msgs::Float32>("/slave_robot2/scale", 5);
-	
-//	_scale = std_msgs::Float32
-
+    _simPub = _slaveRobot.advertise<slave_robot::similarityTransformStamped>("/slave_robot2/similarityTransformation", 5);
 }
 pc_fetcher::~pc_fetcher(){
 	//destructor to release the memory
 }
 
 void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
-
+    _cloud2.data.clear();
+    _pointcloud.points.clear();
     geometry_msgs::Point32 _tempbuffer;
+    ros::Time timeStamp(msg->time);
     _fx = msg->fx;
     _fy = msg->fy; 
     _cx = msg->cx;
@@ -62,27 +59,28 @@ void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
 		    if(nearSupport < minNearSupport)continue;
 		}
 	    //Sophus::Vector3f pt = _camToWorld * (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth);
-	Sophus::Vector3f pt = (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth);
-	    _tempbuffer.x=pt[0];
+	    Sophus::Vector3f pt = (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth);
+		_tempbuffer.x=pt[0];
 	    _tempbuffer.y=pt[1];
             _tempbuffer.z=pt[2];
 	    _pointcloud.points.push_back(_tempbuffer);
 	}
 
     sensor_msgs::convertPointCloudToPointCloud2(_pointcloud,_cloud2);	
+    ROS_INFO("pc calling back...");
     _cloud2.header.seq=kfIndex;
-
-
-	ros::Time timeStamp(msg->time);
-	_cloud2.header.stamp = timeStamp;
-	cout << "scale: " << _camToWorld.scale() << endl;
-	_scale.data = _camToWorld.scale();
-
+    _cloud2.header.stamp= timeStamp;
+    _cloud2.header.frame_id="world";
+    cout << _cloud2.header.seq << endl;
     _keyframe.header.seq=kfIndex;
+    cout << _keyframe.header.seq << endl;
+	// Filling in Similarity Trafo Info
+	_sim3f.header.stamp = timeStamp;
+	_sim3f.sim3f = msg->camToWorld;
 
+    _simPub.publish(_sim3f);
     _imPub.publish(_keyframe);
     _pcPub.publish(_cloud2);
-    _scalePub.publish(_scale);
 }
 
 void pc_fetcher::kfCallback(slave_robot::keyframeGraphMsgConstPtr graph_msg){
