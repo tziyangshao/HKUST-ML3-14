@@ -5,20 +5,12 @@ using namespace sensor_msgs;
 using namespace std_msgs;
 
 pc_fetcher::pc_fetcher(){
-    _imSub = _slaveRobot.subscribe("/usb_cam_node/image_raw", 30, &pc_fetcher::imCallback, this);
-    _kfSub = _slaveRobot.subscribe("/lsd_slam/graph", 10, &pc_fetcher::kfCallback, this);
-    _pcSub = _slaveRobot.subscribe("/lsd_slam/keyframes", 20, &pc_fetcher::pcCallback, this);
-    _imPub = _slaveRobot.advertise<sensor_msgs::Image>("/slave_robot2/keyFrame", 5);
-    _pcPub = _slaveRobot.advertise<sensor_msgs::PointCloud2>("/slave_robot2/pointcloud2", 5);
-    _simPub = _slaveRobot.advertise<slave_robot::similarityTransformStamped>("/slave_robot2/similarityTransformation", 5);
-/*
     _imSub = _slaveRobot.subscribe("/usb_cam_r2/image_raw", 30, &pc_fetcher::imCallback, this);
     _kfSub = _slaveRobot.subscribe("/lsd_slam_r2/graph", 10, &pc_fetcher::kfCallback, this);
     _pcSub = _slaveRobot.subscribe("/lsd_slam_r2/keyframes", 20, &pc_fetcher::pcCallback, this);
     _imPub = _slaveRobot.advertise<sensor_msgs::Image>("/slave_robot2/keyFrame", 5);
     _pcPub = _slaveRobot.advertise<sensor_msgs::PointCloud2>("/slave_robot2/pointcloud2", 5);
     _simPub = _slaveRobot.advertise<slave_robot::similarityTransformStamped>("/slave_robot2/similarityTransformation", 5);
-*/
 }
 pc_fetcher::~pc_fetcher(){
 	//destructor to release the memory
@@ -66,9 +58,10 @@ void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
 			    }
 		    if(nearSupport < minNearSupport)continue;
 		}
-	    //Sophus::Vector3f pt = _camToWorld * (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth);
-	    Sophus::Vector3f pt = (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth);
-	    _tempbuffer.x=pt[0];
+	    Sophus::Vector3f pt = _camToWorld * (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth); 
+	//Sophus::Vector3f pt = (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth);
+//	    Sophus::Vector3f pt = (Sophus::Vector3f((x*1.0 + 1.0), (y*1.0 + 1.0), 1.0) * depth);
+		_tempbuffer.x=pt[0];
 	    _tempbuffer.y=pt[1];
             _tempbuffer.z=pt[2];
 	    _pointcloud.points.push_back(_tempbuffer);
@@ -82,11 +75,11 @@ void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
     cout << _cloud2.header.seq << endl;
     _keyframe.header.seq=kfIndex;
     cout << _keyframe.header.seq << endl;
-
-// Filling in Similarity Trafo Info
+	// Filling in Similarity Trafo Info
 	_sim3f.header.stamp = timeStamp;
 	_sim3f.sim3f = msg->camToWorld;
-	_simPub.publish(_sim3f);
+
+    _simPub.publish(_sim3f);
     _imPub.publish(_keyframe);
     _pcPub.publish(_cloud2);
 }
