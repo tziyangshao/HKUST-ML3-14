@@ -18,11 +18,22 @@ catkin_package()
 
 SET (INCLUDE_DIRS "../eigen3.1/")
 
+<<<<<<< HEAD
 #set(CMAKE_MODULE_PATH /home/turtlebot-3/catkin_ws/src/slave_robot)
 set(CMAKE_MODULE_PATH /home/daniel/ROS_HKUST_project/slave_robot2_catkin_ws/src/slave_robot)
 find_package( Eigen3 REQUIRED )
+=======
+set(CMAKE_MODULE_PATH /home/turtlebot-3/catkin_ws/src/slave_robot)
+find_package(Eigen3)
+#set(CMAKE_MODULE_PATH /home/daniel/ROS_HKUST_project/slave_robot2_catkin_ws/src/slave_robot)
+>>>>>>> c1ed02acff63e0ddc9e8afa28b195f0f45f37ee6
 INCLUDE_DIRECTORIES( ${EIGEN3_INCLUDE_DIR} )
 SET( Sophus_INCLUDE_DIR ${Sophus_INCLUDE_DIR} ${EIGEN3_INCLUDE_DIR} )
+
+find_package(octomap REQUIRED)
+include_directories(${OCTOMAP_INCLUDE_DIRS})
+link_libraries(${OCTOMAP_LIBRARIES})
+
 
 ## Build talker and listener
 include_directories(include ${catkin_INCLUDE_DIRS})
@@ -39,7 +50,7 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 ##target_link_libraries(pose ${catkin_LIBRARIES})
 ##add_dependencies(pose beginner_tutorials_generate_messages_cpp)
 
-add_executable(slave_robot src/pc_fetcher.cpp src/pc_filter.cpp src/slave_robot.cpp)
+add_executable(slave_robot src/pc_fetcher.cpp src/pc_filter.cpp  src/pc_oct.cpp src/slave_robot.cpp)
 target_link_libraries(slave_robot ${catkin_LIBRARIES})
 add_dependencies(slave_robot slave_robot_generate_messages_cpp)
 

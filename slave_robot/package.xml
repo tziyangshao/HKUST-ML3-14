@@ -48,6 +48,8 @@
 	<build_depend>pcl_conversions</build_depend>  
 	<build_depend>libpcl-all-dev</build_depend>
 	<build_depend>libpcl-all-dev</build_depend>
+	<build_depend>octomap</build_depend>
+
 	<run_depend>libpcl-all</run_depend>
 	<run_depend>roscpp</run_depend>
 	<run_depend>rospy</run_depend>
@@ -56,6 +58,7 @@
 	<run_depend>pcl_ros</run_depend>  
 	<run_depend>pcl_conversions</run_depend>  
 	<run_depend>libpcl-all-dev</run_depend>
+	<run_depend>octomap</run_depend>
 
 
   <!-- The export tag contains other, unspecified, tags -->
