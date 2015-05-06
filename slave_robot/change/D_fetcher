@@ -58,8 +58,9 @@ void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
 			    }
 		    if(nearSupport < minNearSupport)continue;
 		}
-	    //Sophus::Vector3f pt = _camToWorld * (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth);
-	    Sophus::Vector3f pt = (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth);
+	    Sophus::Vector3f pt = _camToWorld * (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth); 
+	//Sophus::Vector3f pt = (Sophus::Vector3f((x*_fxi + _cxi), (y*_fyi + _cyi), 1.0) * depth);
+//	    Sophus::Vector3f pt = (Sophus::Vector3f((x*1.0 + 1.0), (y*1.0 + 1.0), 1.0) * depth);
 		_tempbuffer.x=pt[0];
 	    _tempbuffer.y=pt[1];
             _tempbuffer.z=pt[2];
