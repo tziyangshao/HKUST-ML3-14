@@ -5,9 +5,9 @@ using namespace sensor_msgs;
 using namespace std_msgs;
 
 pc_fetcher::pc_fetcher(){
-    _imSub = _slaveRobot.subscribe("/usb_cam_r1/image_rect", 30, &pc_fetcher::imCallback, this);
-    _kfSub = _slaveRobot.subscribe("/lsd_slam_r2/graph", 10, &pc_fetcher::kfCallback, this);
-    _pcSub = _slaveRobot.subscribe("/lsd_slam_r2/keyframes", 20, &pc_fetcher::pcCallback, this);
+    _imSub = _slaveRobot.subscribe("/usb_cam_node/image_rect", 30, &pc_fetcher::imCallback, this);
+    _kfSub = _slaveRobot.subscribe("/lsd_slam/graph", 10, &pc_fetcher::kfCallback, this);
+    _pcSub = _slaveRobot.subscribe("/lsd_slam/keyframes", 20, &pc_fetcher::pcCallback, this);
     _imPub = _slaveRobot.advertise<sensor_msgs::Image>("/slave_robot1/keyFrame", 5);
     _pcPub = _slaveRobot.advertise<sensor_msgs::PointCloud2>("/slave_robot1/pointcloud2", 5);
     _simPub = _slaveRobot.advertise<slave_robot::similarityTransformStamped>("/slave_robot1/similarityTransformation", 5);

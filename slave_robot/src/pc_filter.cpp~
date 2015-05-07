@@ -10,8 +10,8 @@ using namespace sensor_msgs;
 
 
 pc_filter::pc_filter(){
-	_pcSub = _slaveRobot.subscribe("/slave_robot2/pointcloud2", 5, &pc_filter::pcCallback, this);
-	_pcPub = _slaveRobot.advertise<sensor_msgs::PointCloud2>("/slave_robot2/pointcloud2Filtered", 5);
+	_pcSub = _slaveRobot.subscribe("/slave_robot1/pointcloud2", 5, &pc_filter::pcCallback, this);
+	_pcPub = _slaveRobot.advertise<sensor_msgs::PointCloud2>("/slave_robot1/pointcloud2Filtered", 5);
 /*
 	_pcSub = _slaveRobot.subscribe("/slave_robot2/pointcloud2", 5, &pc_filter::pcCallback, this);
 	_pcPub = _slaveRobot.advertise<sensor_msgs::PointCloud2>("/slave_robot2/pointcloudFiltered", 5);
