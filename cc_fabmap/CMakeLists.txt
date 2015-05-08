@@ -68,7 +68,8 @@ catkin_package(
 # include_directories(include)
 include_directories(
   ${catkin_INCLUDE_DIRS}
-  ~/opengv/include
+  /home/tyshao/fyp_workspace/lib/opengv/include
+
 )
 
 ## Declare a cpp library
