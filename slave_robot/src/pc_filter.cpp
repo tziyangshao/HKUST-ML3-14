@@ -36,7 +36,7 @@ void pc_filter::pcCallback(const sensor_msgs::PointCloud2ConstPtr & cloud_msg)
   ransamp.setInputCloud (PC);
   ransamp.setSample (numberSampled);
   ransamp.setSeed(rand());
-  ransamp.setKeepOrganized(true);
+  //ransamp.setKeepOrganized(true);
   ransamp.filter(*random_filtered);
 
   pcl::StatisticalOutlierRemoval<pcl::PointXYZ> outlier_rm;
@@ -45,7 +45,7 @@ void pc_filter::pcCallback(const sensor_msgs::PointCloud2ConstPtr & cloud_msg)
   outlier_rm.setStddevMulThresh (0.0088);
 // The resulting cloud_out contains all points of cloud_in that have an average distance to their 8 nearest neighbors that is below the computed threshold
 // Using a standard deviation multiplier of 1.0 and assuming the average distances are normally distributed there is a 84.1% chance that a point will be an inlier
-  outlier_rm.setKeepOrganized(true);
+  //outlier_rm.setKeepOrganized(true);
   outlier_rm.filter (*PC_filtered);
 
   // Convert to ROS data type
@@ -62,6 +62,8 @@ for (size_t i = 0; i < PC_filtered->points.size (); ++i){
   sensor_msgs::convertPointCloudToPointCloud2(output,output_pc);
 
   // Publish the data
+  cout << "timestamp filter: " << endl <<
+		  output_pc.header.stamp << endl;
   _pcPub.publish (output_pc);
 
 

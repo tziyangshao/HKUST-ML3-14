@@ -23,14 +23,13 @@
 
 class pc_filter{
     public:
-	pc_filter();
-	~pc_filter();	
-	void pcCallback(const sensor_msgs::PointCloud2ConstPtr & cloud2);
+		pc_filter();
+		~pc_filter();
+		void pcCallback(const sensor_msgs::PointCloud2ConstPtr & cloud2);
 	
     private:
-	
-	ros::NodeHandle _slaveRobot;
-	ros::Subscriber _pcSub;
-	ros::Publisher _pcPub;
+		ros::NodeHandle _slaveRobot;
+		ros::Subscriber _pcSub;
+		ros::Publisher _pcPub;
 };
 

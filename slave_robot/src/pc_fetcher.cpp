@@ -27,16 +27,17 @@ void pc_fetcher::pcCallback(slave_robot::keyframeMsgConstPtr msg){
 
     this->copykFMsgTokFMsgStamped(msg);
 
+
+    this->_kFGraphMsgStamped.header.stamp = this->_kFMsgStamped.header.stamp;
     this->_pcPub.publish(this->_cloud2);
     this->_kFMsgStampedPub.publish(this->_kFMsgStamped);
 	this->_kFGraphMsgStampedPub.publish(this->_kFGraphMsgStamped);
 }
 
-
-void pc_fetcher::kfCallback(slave_robot::keyframeGraphMsgConstPtr graph_msg){
+void pc_fetcher::kfCallback(slave_robot::keyframeGraphMsgConstPtr graph_msg) {
 	kfIndex=(uint32_t)graph_msg->numFrames;
-	this->copykFGraphMsgTokFGraphMsgStamped(graph_msg);
 
+    this->copykFGraphMsgTokFGraphMsgStamped(graph_msg);
 }
 
 void pc_fetcher::readkFMsg(slave_robot::keyframeMsgConstPtr msg) {
@@ -105,7 +106,7 @@ void pc_fetcher::computeCloud() {
 			tempbuffer.x=pt[0];
 			tempbuffer.y=pt[1];
 			tempbuffer.z=pt[2];
-			this->_pointcloud.points[x+y*this->_width] = tempbuffer;
+			this->_pointcloud.points.push_back(tempbuffer);
 		}
     }
 }
@@ -122,8 +123,10 @@ void pc_fetcher::fillCloudMsg() {
 }
 
 void pc_fetcher::copykFMsgTokFMsgStamped(slave_robot::keyframeMsgConstPtr msg) {
+	ros::Time timeStampTmp(msg->time);
+
 	this->_kFMsgStamped.header.seq = this->kfIndex;
-	this->_kFMsgStamped.header.stamp = this->_timeStamp;
+	this->_kFMsgStamped.header.stamp = timeStampTmp;
 	this->_kFMsgStamped.header.frame_id = "world";
 
 	this->_kFMsgStamped.id = msg->id;
